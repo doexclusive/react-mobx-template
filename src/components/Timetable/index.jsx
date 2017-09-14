@@ -1,8 +1,9 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import {observer, inject} from 'mobx-react';
 import {Link, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+@inject('timerStore')
 @withRouter
 @observer
 export default class Timetable extends React.Component {
@@ -16,7 +17,7 @@ export default class Timetable extends React.Component {
   }
 
   render() {
-    const {timer, resetTimer} = this.props.store;
+    const {timer, resetTimer} = this.props.timerStore;
     return (
       <div>
         Hi Guys!<br/>
@@ -27,7 +28,3 @@ export default class Timetable extends React.Component {
     );
   }
 };
-
-Timetable.propTypes = {
-  store: PropTypes.object.isRequired
-}

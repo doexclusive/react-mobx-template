@@ -12,7 +12,7 @@ module.exports = ({debug = false} = {}) => {
     }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
-      title: 'Гарем',
+      title: 'WalkAround',
       template: 'src/html/index.ejs',
       filename: 'index.html',
       hash: true,
@@ -35,11 +35,20 @@ module.exports = ({debug = false} = {}) => {
   }
 
   return {
+    devServer: {
+      overlay: {
+        warnings: true,
+        errors: true
+      },
+      port: 7001,
+      https: true,
+      historyApiFallback: true
+    },
     target: 'web',
     devtool: 'source-map',
     entry: './src/application.jsx',
     output: {
-      path: path.resolve(__dirname, 'www'),
+      path: path.resolve(__dirname, '../../www'),
       filename: debug ? 'bundle.js' : 'bundle.min.js',
       publicPath: '/'
     },
@@ -49,10 +58,10 @@ module.exports = ({debug = false} = {}) => {
         {
           test: /\.(js|jsx)$/,
           include: [
-            path.resolve(__dirname, 'src')
+            path.resolve(__dirname, '../../src')
           ],
           exclude: /node_modules/,
-          loader: 'babel-loader',
+          loader: require.resolve('babel-loader'),
           options: {
             compact: true,
             presets: [
@@ -69,13 +78,13 @@ module.exports = ({debug = false} = {}) => {
         {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
-            fallback: "style-loader",
-            use: "css-loader"
+            fallback: require.resolve('style-loader'),
+            use: require.resolve('css-loader')
           })
         },
         {
           test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3|mp4|avi|mov)$/,
-          loader: 'file-loader'
+          loader: require.resolve('file-loader')
         }
       ]
     },

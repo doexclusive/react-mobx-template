@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import {observable, action} from 'mobx';
 
 class TimerStore {
   @observable timer = 0;
